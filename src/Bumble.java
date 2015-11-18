@@ -4,18 +4,20 @@ import java.util.Scanner;
 /*
  *  Author: Ching Hsiang Chen
  *  Last Edit: 10/31/2015
+ *  
+ *  This class handles user interaction, and is the heart of this program.
  */
 public class Bumble
 {
 
-	public static void add(Database currentDatabase, String[] word)
+	private static void add(Database currentDatabase, String[] word)
 	{
 
 		if (word.length == 3)
 		{
 			currentDatabase.add(word[1], word[2]);
 
-			System.out.println("--->	Added");
+			System.out.println(Print.STATUS_ARROW + "Added");
 		}
 		else
 		{
@@ -23,7 +25,7 @@ public class Bumble
 		}
 	}
 
-	public static void delete(Database currentDatabase, String[] word)
+	private static void delete(Database currentDatabase, String[] word)
 	{
 		if (word.length == 2)
 		{
@@ -38,7 +40,7 @@ public class Bumble
 
 					index = Integer.parseInt(word[1].substring(1,
 							word[1].length()));
-					System.out.println("--->	Deleted "
+					System.out.println(Print.STATUS_ARROW + "Deleted "
 							+ currentDatabase.getIndex(index).getUsername());
 					currentDatabase.delete(index);
 				}
@@ -62,20 +64,64 @@ public class Bumble
 
 	}
 
-	public static void exit()
+	/**
+	 * Exits this program
+	 */
+	private static void exit()
 	{
 
-		System.out.println("--->	Session Ended");
+		System.out.println(Print.STATUS_ARROW + "Session Ended");
+
+		// System.out.println("[Session Ended]");
 		System.exit(0);
 	}
 
 	/**
 	 * Displays the help message, which will list all commands
 	 */
-	public static void help()
+	private static void help()
 	{
 		System.out
-				.println("====== Command List ======\nadd email_address Password	-Adds an acount to database\ndelete -index			-Delete an account. Use \"ls\" to find the account index\nls				-list all account information\nstart -n			-begin bing search,where n is the number of searches\nexit				-exits the program");
+				.println(Print.BORDER_EQUAL
+						+ "\n= Command List"
+						+ "\n"
+						+ Print.BORDER_EQUAL
+						+ "\nadd <EMAIL_ADDRESS> <PASSWORD>	-Adds an acount to database"
+						+ "\ndelete -<INDEX>			-Delete an account. Use \"ls\" to find the account index"
+						+ "\nls				-List all account information"
+						+ "\nstart -<N>			-Begin search,where N is the number of searches"
+						+ "\nexit				-Exits the program");
+	}
+
+	/**
+	 * Prints all account emails and corresponding passwords
+	 * 
+	 * @param currentDatabase
+	 *            Database containing accounts
+	 */
+	private static void ls(Database currentDatabase)
+	{
+
+		System.out.println(Print.BORDER_EQUAL + "\n= " + "List of accounts"
+				+ "\n" + Print.BORDER_EQUAL);
+
+		for (int i = 0; i < currentDatabase.getNumOfAccounts() - 1; i++)
+		{
+			if (i % 2 == 0)
+			{
+				System.out.println(ANSI_COLOR.CYAN + "[" + i + "]" + " "
+						+ currentDatabase.getIndex(i).getUsername() + " "
+						+ ANSI_COLOR.RESET);
+			}
+			else
+			{
+				System.out.println(ANSI_COLOR.PURPLE + "[" + i + "]" + " "
+						+ currentDatabase.getIndex(i).getUsername() + " "
+						+ ANSI_COLOR.RESET);
+			}
+
+		}
+
 	}
 
 	public static void main(String[] args) throws IOException
@@ -85,7 +131,7 @@ public class Bumble
 		 * this section will take care of standard IOjava
 		 */
 
-		System.out.println("------ chingyg Bing Rewards Ex v1.3------");
+		printWelcomeMessage();
 
 		// Initialize Database
 		Database myDatabase = new Database();
@@ -117,13 +163,7 @@ public class Bumble
 				help();
 				break;
 			case "ls":
-				System.out.println("====== List of accounts ======");
-				for (int i = 0; i < myDatabase.getNumOfAccounts() - 1; i++)
-				{
-					System.out.println("[" + i + "]" + " "
-							+ myDatabase.getIndex(i).getUsername() + " "
-							+ myDatabase.getIndex(i).getPassword());
-				}
+				ls(myDatabase);
 				break;
 			case "start":
 				start(myDatabase, word);
@@ -131,8 +171,7 @@ public class Bumble
 				break;
 
 			default:
-				System.out
-						.println("Command not found. Try \"help\" for a list of commands");
+				parseError();
 				break;
 			}
 
@@ -141,7 +180,15 @@ public class Bumble
 
 	}
 
-	public static void start(Database newDB, String[] word)
+	/**
+	 * Begin the search
+	 * 
+	 * @param newDB
+	 *            Database containing account information
+	 * @param word
+	 *            The switch that was used with the start command
+	 */
+	private static void start(Database newDB, String[] word)
 	{
 
 		// Check if command is valid
@@ -181,10 +228,30 @@ public class Bumble
 
 	}
 
-	public static void parseError()
+	/**
+	 * Prints out an error message when user enters an invalid command
+	 */
+	private static void parseError()
 	{
-		System.out
-				.println("Command not found. Try \"help\" for a list of commands");
+		System.out.println(Print.STATUS_ARROW
+				+ "Command not found. Try \"help\" for a list of commands");
+		
+		
+	}
+
+	/**
+	 * Message that is printed when program initially starts
+	 */
+	private static void printWelcomeMessage()
+	{
+
+		System.out.println(Print.BORDER_EQUAL + Print.BORDER_EQUAL_MIDDLE
+				+ Print.SCRIPT_NAME + " " + Print.VERSION
+				+ Print.BORDER_EQUAL_MIDDLE + "[TSquard]" + "\n"
+				+ Print.BORDER_EQUAL);
+		
+		
+		//System.out.println((char)27 + "[34;43mBlue text with yellow background");
 	}
 
 }
