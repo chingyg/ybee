@@ -367,7 +367,8 @@ public class HomePage
 			/**
 			 * While trivia challenges are considered a completeable offer in
 			 * human perspective, this program does not see it as a offer
-			 * because it cannot be automated.
+			 * because it cannot be automated. Not sure if iPhone daily will be
+			 * permanent daily offer.
 			 */
 			else if (offerList.get(0).getText().contains("Trivia challenge")
 					|| offerList.get(0).getText()
