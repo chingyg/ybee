@@ -42,9 +42,18 @@ public class HomePage
 
 	}
 
+	public HomePage(Database newDB)
+	{
+		this.driver = null;
+		this.myDB = newDB;
+		this.numOfSearches = -1;
+		myRandom = new RandomUtils();
+	}
+
 	public void login(Account account, String driverType)
 	{
-		System.out.println("--->	Logging in");
+		Bumble.print.printInfo("Logging in");
+		// System.out.println("--->	Logging in");
 
 		if (driverType.equalsIgnoreCase("firefox"))
 		{
@@ -58,15 +67,6 @@ public class HomePage
 
 			// error checking
 			WebElement error = null;
-
-			// try {
-			// error = driver.findElement(By.id("idTd_PWD_ErrorMsg_Username"));
-			// } catch (NoSuchElementException e) {
-			// System.out
-			// .println("--->	There was a login error. Please recheck username and password");
-			// driver.close();
-			//
-			// }
 
 			try
 			{
@@ -87,56 +87,10 @@ public class HomePage
 			else
 			{
 				// No login error
-				System.out.println("--->	Login sucessful");
+				// System.out.println("--->	Login sucessful");
+				Bumble.print.printInfo("Login sucessful");
 			}
 		}
-
-		// if (driverType.equalsIgnoreCase("html"))
-		// {
-		// // Entering user name
-		// WebElement usernameElement = htmlDriver.findElement(By.id("i0116"));
-		// usernameElement.sendKeys(account.getUsername());
-		//
-		// // Entering password and simulating "ENTER" key
-		// WebElement passwordElement = htmlDriver.findElement(By.id("i0118"));
-		// passwordElement.sendKeys(account.getPassword(), Keys.ENTER);
-		//
-		// // error checking
-		// WebElement error = null;
-		//
-		// // try {
-		// // error = driver.findElement(By.id("idTd_PWD_ErrorMsg_Username"));
-		// // } catch (NoSuchElementException e) {
-		// // System.out
-		// //
-		// .println("--->	There was a login error. Please recheck username and password");
-		// // driver.close();
-		// //
-		// // }
-		//
-		// try
-		// {
-		// error = htmlDriver.findElement(By
-		// .id("idTd_Tile_ErrorMsg_Login"));
-		// }
-		// catch (NoSuchElementException e)
-		// {
-		//
-		// }
-		//
-		// // Login error
-		// if (error != null)
-		// {
-		// System.out
-		// .println("--->	There was a login error. Please recheck username and password");
-		// driver.close();
-		// }
-		// else
-		// {
-		// // No login error
-		// System.out.println("--->	Login sucessful");
-		// }
-		// }
 
 	}
 
@@ -157,10 +111,13 @@ public class HomePage
 			WebElement inputField = driver.findElement(By.id("sb_form_q"));
 			inputField.clear();
 
-			System.out.println("--->	Automating 30 searches");
+			int maxSearches = this.numOfSearches;
+			// Print.printInfo("Automating " + maxSearches + " searches");
+			// System.out.println("--->	Automating " + maxSearches +
+			// " searches");
 
-			// Do search for 30 times
-			for (int i = 0; i < this.numOfSearches; i++)
+			// Do search for X times
+			for (int i = 0; i < maxSearches; i++)
 			{
 				inputField = driver.findElement(By.id("sb_form_q"));
 
@@ -173,150 +130,13 @@ public class HomePage
 				// }
 				inputField.sendKeys(character, Keys.ENTER);
 
-				System.out.println("--->	Search #" + (i + 1) + " completed.");
+				// System.out.println("--->	Search #" + (i + 1) +
+				// " completed.");
+				Bumble.print.printInfo("Search #" + (i + 1) + " completed.");
+				this.numOfSearches--;
 				sleep(2100);
 
 			}
-		}
-
-		// if (driverType.equalsIgnoreCase("html"))
-		// {
-		// // Navigate to the search page
-		// htmlDriver
-		// .get("https://www.bing.com/news?q=US+news&FORM=ML11Z9&CREA=ML11Z9");
-		//
-		// // Clears the search bar
-		// WebElement inputField = htmlDriver.findElement(By.id("sb_form_q"));
-		// inputField.clear();
-		//
-		// System.out.println("--->	Automating 30 searches");
-		//
-		// // Do search for 30 times
-		// for (int i = 0; i < 30; i++)
-		// {
-		// inputField = htmlDriver.findElement(By.id("sb_form_q"));
-		//
-		// // For the first character, we don't want a white space
-		// if (i == 0)
-		// {
-		// String character = Character.toString(myRandom.generateChar());
-		//
-		// while ((character) == " ")
-		// {
-		// character = Character.toString(myRandom.generateChar());
-		// }
-		//
-		// // inputField.sendKeys(character, Keys.ENTER);
-		// System.out.println(inputField.getText());
-		// }
-		// else
-		// {
-		// // inputField.sendKeys(generateRandomString(), Keys.ENTER);
-		// String character = Character.toString(myRandom.generateChar());
-		// System.out.println(inputField.getText());
-		//
-		// }
-		// System.out.println("--->	Search #" + (i + 1) + " completed.");
-		// sleep(2000);
-		//
-		// }
-		// }
-
-	}
-
-	/**
-	 * Goes through all of the offers and attempts to complete legitimate daily
-	 * offers. This is the iterative and ugly way to do this. Recursive method
-	 * would be more elegant.
-	 */
-	public void offers()
-	{
-
-		boolean end = false;
-		boolean restart = true;
-		String selectLinkOpeninNewTab = Keys.chord(Keys.CONTROL, Keys.RETURN);
-		// TODO This is a work in progress
-
-		// Navigate to home page
-		driver.get(HOMEPAGE_URL);
-
-		try
-		{
-			// WebElement offer =
-			// driver.findElement(By.className("tile rel blk tile-height"));
-			// WebElement offer =
-			// driver.findElement(By.xpath("/html/body/div[2]/div[1]/div[1]/ul/li/a"));
-			// System.out.println("\n" + offer.getText());
-
-			System.out.println("==============================" + "\n= Offers"
-					+ "\n==============================");
-
-			while (!end)
-			{
-				List<WebElement> offerList = null;
-
-				if (restart)
-				{
-					offerList = getMostRecentOffers();
-					restart = false;
-				}
-
-				for (int i = 0; i < offerList.size(); i++)
-				{
-					System.out.println("------------------------------\n"
-							+ offerList.get(i).getText());
-					if (isDailyOffer(offerList.get(i)))
-					{
-						System.out.println("\nLegit daily offer");
-
-						/*
-						 * When you click on an offer, the list of offers on the
-						 * webpage gets updated in real time. Need to redeclare
-						 * the list of offers again
-						 */
-
-						// Opens the offer in a new tab
-						offerList.get(i).sendKeys("", selectLinkOpeninNewTab);
-						sleep(1500);
-						restart = true;
-						break;
-
-					}
-					else
-					{
-						/*
-						 * If the first element is not an offer, then it either
-						 * means you've completed all offers, or there is no
-						 * offer.
-						 */
-
-						if (i == 0)
-						{
-							end = true;
-							break;
-						}
-						System.out.println("\nNOT daily offer");
-					}
-
-					// We've reached the end of the offerList
-					if (i == (offerList.size() - 1))
-					{
-						end = true;
-					}
-					sleep(1000);
-
-				}
-
-			}
-
-			System.out.println("=============================="
-					+ "\n= End of Offers" + "\n==============================");
-
-		}
-		catch (Exception e)
-		{
-			// TODO: handle exception
-			System.out.println("--->	" + e.toString());
 		}
 
 	}
@@ -338,13 +158,12 @@ public class HomePage
 		List<WebElement> offerList = null;
 		String selectLinkOpeninNewTab = Keys.chord(Keys.CONTROL, Keys.RETURN);
 
-		System.out.println(Print.BORDER_EQUAL + Print.BORDER_EQUAL_MIDDLE
-				+ "Offers" + "\n" + Print.BORDER_EQUAL);
+		Bumble.print.printOffersBanner();
 
 		// Navigate to home page
 		driver.get(HOMEPAGE_URL);
 
-		sleep(1000);
+		sleep(3000);
 
 		while (true)
 		{
@@ -352,16 +171,19 @@ public class HomePage
 			offerList = getMostRecentOffers();
 
 			// Print out the first offer
-			System.out.println(Print.BORDER_HYPHEN + "\n"
-					+ offerList.get(0).getText());
+			// System.out.println(Print.C_BORDER_HYPHEN + "\n"
+			// + offerList.get(0).getText());
+
 			// Check if the first item is a legit offer.
 			if (isDailyOffer(offerList.get(0)))
 			{
-				System.out.println("\nLegit daily offer");
+
+				Bumble.print.printInfo("Legit daily offer");
+				Bumble.print.printInfo(offerList.get(0).getText());
 
 				// Opens the offer in a new tab
 				offerList.get(0).sendKeys("", selectLinkOpeninNewTab);
-				sleep(1500);
+				sleep(3000);
 
 			}
 			/**
@@ -370,38 +192,60 @@ public class HomePage
 			 * because it cannot be automated. Not sure if iPhone daily will be
 			 * permanent daily offer.
 			 */
-			else if (offerList.get(0).getText().contains("Trivia challenge")
+			else if (offerList.get(0).getText().contains("Trivia")
 					|| offerList.get(0).getText()
-							.contains("Daily iPhone bonus"))
+							.contains("Daily iPhone bonus")
+					|| offerList.get(0).getText().contains("quiz")
+					|| offerList.get(0).getText().contains("Earn more"))
 			{
 
 				// Case when there is an offer after a trivia challenge
 				if (isDailyOffer(offerList.get(1)))
 				{
-					System.out.println("\nLegit daily offer");
+					Bumble.print.printInfo("Legit daily offer");
+					Bumble.print.printInfo(offerList.get(1).getText());
 
 					// Opens the offer in a new tab
 					offerList.get(1).sendKeys("", selectLinkOpeninNewTab);
-					sleep(1500);
+					sleep(3000);
 				}
 				else
 				{
-					// No more offers to complete. We're done.
-					break;
+
+					// Check the third one for daily offer. There is a case when
+					// you have a quiz and a "earn more credits" offer
+
+					if (isDailyOffer(offerList.get(2)))
+					{
+						Bumble.print.printInfo("Legit daily offer");
+						Bumble.print.printInfo(offerList.get(2).getText());
+
+						// Opens the offer in a new tab
+						offerList.get(1).sendKeys("", selectLinkOpeninNewTab);
+						sleep(3000);
+					}
+					else
+					{
+						// No more offers to complete. We're done.
+						// sleep(1000);
+						break;
+					}
+
 				}
 			}
 			else
 			{
+				// No more offers to complete. We're done.
+				// sleep(1000);
 				break;
 			}
 		}
 
-		System.out.println(Print.BORDER_EQUAL + Print.BORDER_EQUAL_MIDDLE
-				+ "End of Offers" + "\n" + Print.BORDER_EQUAL);
+		Bumble.print.printInfo("End of Offers");
 
 	}
 
-	public List<WebElement> getMostRecentOffers()
+	private List<WebElement> getMostRecentOffers()
 	{
 		List<WebElement> offerList = driver.findElements(By
 				.xpath("//*[@class='tile rel blk tile-height']"));
@@ -475,7 +319,7 @@ public class HomePage
 
 	public void start(String driverType)
 	{
-		System.out.println(Print.STATUS_ARROW + "Starting");
+		// System.out.println(Print.C_STATUS_ARROW + "Starting");
 
 		// FireFox Driver
 		if (driverType.equalsIgnoreCase("firefox"))
@@ -519,5 +363,108 @@ public class HomePage
 			pcSearch("html");
 
 		}
+	}
+
+	public void start2(String driverType)
+	{
+
+		Bumble.print.printStartBanner();
+		Bumble.print.printInfo("Starting");
+		// System.out.println(Print.STATUS_ARROW + "Starting");
+
+		// FireFox Driver
+		if (driverType.equalsIgnoreCase("firefox"))
+		{
+			// Go through all accounts
+			for (int i = 0; i < myDB.getNumOfAccounts() - 1; i++)
+			{
+
+				Bumble.print.printInfo("Starting Automation for Account: "
+						+ myDB.getIndex(i).getUsername());
+				this.driver = new FirefoxDriver();
+
+				// Go to main login page
+				this.driver.get(LOGIN_URL);
+
+				login(myDB.getIndex(i), "firefox");
+				sleep(2000);
+				this.numOfSearches = getNumberOfSearches();
+				pcSearch("firefox");
+				offers2();
+				sleep(2000);
+				driver.close();
+
+			}
+		}
+		// HTML Unit Driver
+		if (driverType.equalsIgnoreCase("html"))
+		{
+
+			// Chrome web client
+			// webClient = new WebClient(BrowserVersion.CHROME);
+
+			htmlDriver = new HtmlUnitDriver(BrowserVersion.CHROME);
+			htmlDriver.setJavascriptEnabled(true);
+
+			/* turn off annoying htmlunit warnings */
+			java.util.logging.Logger.getLogger("com.gargoylesoftware")
+					.setLevel(java.util.logging.Level.OFF);
+
+			// Go to bing rewards login page
+			htmlDriver.get(LOGIN_URL);
+
+			// Login
+			login(myDB.getIndex(0), "html");
+			sleep(2000);
+			pcSearch("html");
+
+		}
+	}
+
+	/**
+	 * ONLY GETS CALLS WHEN YOU'RE LOGGED IN. This will determine how many
+	 * searches you need to reach the maximum.
+	 * 
+	 * @return number of remaining searches
+	 */
+	private int getNumberOfSearches()
+	{
+		// New way
+
+		// Grab the "PC Search" element
+		List<WebElement> myList = getMostRecentOffers();
+		String PCSearch = "";
+		boolean found = false;
+		int i = 0;
+		while (!found)
+		{
+
+			if (myList.get(i).getText().contains("PC search"))
+			{
+				PCSearch = myList.get(i).getText();
+				found = true;
+			}
+			i++;
+		}
+
+		// Case when there's searches remaining
+		if (PCSearch.contains("of 15 credits"))
+		{
+
+			String[] word = PCSearch.split("\\s+");
+
+			int numOfSearches = (15 - (Integer.parseInt(word[word.length - 4]))) * 2;
+
+			Bumble.print.printInfo("Number of searches to be completed: "
+					+ numOfSearches);
+			return numOfSearches;
+		}
+		// Case when there's no searches remaining
+		else
+		{
+			Bumble.print.printInfo("Number of searches to be completed: 0");
+			return 0;
+		}
+
 	}
 }

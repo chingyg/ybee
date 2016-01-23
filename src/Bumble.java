@@ -10,6 +10,10 @@ import java.util.Scanner;
 public class Bumble
 {
 
+	// Static object that gets accessed everywhere
+	// This is the main way things get printed to the console
+	static Print2 print;
+
 	private static void add(Database currentDatabase, String[] word)
 	{
 
@@ -17,7 +21,8 @@ public class Bumble
 		{
 			currentDatabase.add(word[1], word[2]);
 
-			System.out.println(Print.STATUS_ARROW + "Added");
+			// System.out.println(Print.STATUS_ARROW + "Added");
+			print.printStatus("Added " + word[1]);
 		}
 		else
 		{
@@ -40,7 +45,8 @@ public class Bumble
 
 					index = Integer.parseInt(word[1].substring(1,
 							word[1].length()));
-					System.out.println(Print.STATUS_ARROW + "Deleted "
+
+					print.printStatus("Deleted "
 							+ currentDatabase.getIndex(index).getUsername());
 					currentDatabase.delete(index);
 				}
@@ -60,8 +66,6 @@ public class Bumble
 			parseError();
 		}
 
-		// Valid command
-
 	}
 
 	/**
@@ -70,9 +74,7 @@ public class Bumble
 	private static void exit()
 	{
 
-		System.out.println(Print.STATUS_ARROW + "Session Ended");
-
-		// System.out.println("[Session Ended]");
+		print.printExit();
 		System.exit(0);
 	}
 
@@ -81,16 +83,8 @@ public class Bumble
 	 */
 	private static void help()
 	{
-		System.out
-				.println(Print.BORDER_EQUAL
-						+ "\n= Command List"
-						+ "\n"
-						+ Print.BORDER_EQUAL
-						+ "\nadd <EMAIL_ADDRESS> <PASSWORD>	-Adds an acount to database"
-						+ "\ndelete -<INDEX>			-Delete an account. Use \"ls\" to find the account index"
-						+ "\nls				-List all account information"
-						+ "\nstart -<N>			-Begin search,where N is the number of searches"
-						+ "\nexit				-Exits the program");
+
+		print.printHelp();
 	}
 
 	/**
@@ -101,24 +95,12 @@ public class Bumble
 	 */
 	private static void ls(Database currentDatabase)
 	{
-
-		System.out.println(Print.BORDER_EQUAL + "\n= " + "List of accounts"
-				+ "\n" + Print.BORDER_EQUAL);
+		print.printlsBanner();
 
 		for (int i = 0; i < currentDatabase.getNumOfAccounts() - 1; i++)
 		{
-			if (i % 2 == 0)
-			{
-				System.out.println(ANSI_COLOR.CYAN + "[" + i + "]" + " "
-						+ currentDatabase.getIndex(i).getUsername() + " "
-						+ ANSI_COLOR.RESET);
-			}
-			else
-			{
-				System.out.println(ANSI_COLOR.PURPLE + "[" + i + "]" + " "
-						+ currentDatabase.getIndex(i).getUsername() + " "
-						+ ANSI_COLOR.RESET);
-			}
+
+			print.ls(i, currentDatabase.getIndex(i).getUsername());
 
 		}
 
@@ -126,6 +108,26 @@ public class Bumble
 
 	public static void main(String[] args) throws IOException
 	{
+
+		// Check for special switches
+		if (args.length > 0)
+		{
+			for (int i = 0; i < args.length; i++)
+			{
+				if (args[i].equals("-c"))
+				{
+					// Set Color Syntax Flag
+					print = new PrintColor();
+
+				}
+
+			}
+		}
+		else
+		{
+			// Black and White prints
+			print = new PrintNoColor();
+		}
 
 		/*
 		 * this section will take care of standard IOjava
@@ -166,7 +168,7 @@ public class Bumble
 				ls(myDatabase);
 				break;
 			case "start":
-				start(myDatabase, word);
+				start(myDatabase);
 
 				break;
 
@@ -180,52 +182,20 @@ public class Bumble
 
 	}
 
-	/**
-	 * Begin the search
-	 * 
-	 * @param newDB
-	 *            Database containing account information
-	 * @param word
-	 *            The switch that was used with the start command
-	 */
-	private static void start(Database newDB, String[] word)
+	private static void start(Database newDB)
 	{
-
-		// Check if command is valid
-		if (word.length == 2)
+		try
 		{
-
-			if (word[1].charAt(0) == '-')
-			{
-				String tempString = word[1].substring(1, word[1].length());
-
-				int numberOfSearches = 0;
-				try
-				{
-					numberOfSearches = Integer.parseInt(tempString);
-
-					// For now, this will use the firefox driver
-					HomePage driver = new HomePage(newDB, numberOfSearches);
-					driver.start("firefox");
-					exit();
-				}
-				catch (Exception e)
-				{
-					// TODO: handle exception
-					parseError();
-				}
-			}
-			else
-			{
-				parseError();
-			}
+			// For now, this will use the firefox driver
+			HomePage driver = new HomePage(newDB);
+			driver.start2("firefox");
+			exit();
 		}
-
-		else
+		catch (Exception e)
 		{
-			parseError();
+			print.printError(e.toString());
+			// System.out.println(e);
 		}
-
 	}
 
 	/**
@@ -233,10 +203,9 @@ public class Bumble
 	 */
 	private static void parseError()
 	{
-		System.out.println(Print.STATUS_ARROW
-				+ "Command not found. Try \"help\" for a list of commands");
-		
-		
+
+		print.printInvalidCommand();
+
 	}
 
 	/**
@@ -245,13 +214,8 @@ public class Bumble
 	private static void printWelcomeMessage()
 	{
 
-		System.out.println(Print.BORDER_EQUAL + Print.BORDER_EQUAL_MIDDLE
-				+ Print.SCRIPT_NAME + " " + Print.VERSION
-				+ Print.BORDER_EQUAL_MIDDLE + "[TSquard]" + "\n"
-				+ Print.BORDER_EQUAL);
-		
-		
-		//System.out.println((char)27 + "[34;43mBlue text with yellow background");
+		print.printWelcome();
+
 	}
 
 }
