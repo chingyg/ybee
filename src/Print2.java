@@ -3,7 +3,7 @@ public abstract class Print2
 
 	public final String SCRIPT_NAME = "Bumble";
 
-	public final String VERSION = "1.5.0.0";
+	public final String VERSION = "1.5.0.1";
 
 	public abstract void printDebug(String message);
 
@@ -25,7 +25,10 @@ public abstract class Print2
 
 	public abstract void printExit();
 
-	public abstract void printOffersBanner();
+	public abstract void printOffersStartBanner();
+	public abstract void printOffersEndBanner();
 
 	public abstract void printStartBanner();
+	
+	public abstract void printEndbanner();
 }

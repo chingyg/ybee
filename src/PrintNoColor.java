@@ -138,7 +138,7 @@ public class PrintNoColor extends Print2
 	}
 
 	@Override
-	public void printOffersBanner()
+	public void printOffersStartBanner()
 	{
 		System.out.println(BORDER_EQUAL + BORDER_EQUAL_MIDDLE + "Offers" + "\n"
 				+ BORDER_EQUAL);
@@ -160,6 +160,22 @@ public class PrintNoColor extends Print2
 		System.out.println(BORDER_EQUAL + BORDER_EQUAL_MIDDLE
 				+ "Starting Bing Automation" + "\n" + BORDER_EQUAL);
 
+	}
+
+	@Override
+	public void printOffersEndBanner()
+	{
+		System.out.println(BORDER_EQUAL + BORDER_EQUAL_MIDDLE + "End of Offers" + "\n"
+				+ BORDER_EQUAL);
+		
+	}
+
+	@Override
+	public void printEndbanner()
+	{
+		System.out.println(BORDER_EQUAL + BORDER_EQUAL_MIDDLE
+				+ "End of Bing Automation" + "\n" + BORDER_EQUAL);
+		
 	}
 
 }

@@ -177,7 +177,7 @@ public class PrintColor extends Print2
 	}
 
 	@Override
-	public void printOffersBanner()
+	public void printOffersStartBanner()
 	{
 		System.out.println(BORDER_EQUAL + BORDER_EQUAL_MIDDLE
 				+ ANSI_COLOR.BOLD_YELLOW + "Offers" + ANSI_COLOR.RESET + "\n"
@@ -234,6 +234,24 @@ public class PrintColor extends Print2
 				+ ANSI_COLOR.BOLD_YELLOW + "Starting Bing Automation"
 				+ ANSI_COLOR.RESET + "\n" + BORDER_EQUAL);
 
+	}
+
+	@Override
+	public void printOffersEndBanner()
+	{
+		System.out.println(BORDER_EQUAL + BORDER_EQUAL_MIDDLE
+				+ ANSI_COLOR.BOLD_YELLOW + "End of Offers" + ANSI_COLOR.RESET + "\n"
+				+ BORDER_EQUAL);
+		
+	}
+
+	@Override
+	public void printEndbanner()
+	{
+		System.out.println(BORDER_EQUAL + BORDER_EQUAL_MIDDLE
+				+ ANSI_COLOR.BOLD_YELLOW + "End of Bing Automation"
+				+ ANSI_COLOR.RESET + "\n" + BORDER_EQUAL);
+		
 	}
 
 }

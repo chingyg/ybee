@@ -158,7 +158,7 @@ public class HomePage
 		List<WebElement> offerList = null;
 		String selectLinkOpeninNewTab = Keys.chord(Keys.CONTROL, Keys.RETURN);
 
-		Bumble.print.printOffersBanner();
+		Bumble.print.printOffersStartBanner();
 
 		// Navigate to home page
 		driver.get(HOMEPAGE_URL);
@@ -241,7 +241,7 @@ public class HomePage
 			}
 		}
 
-		Bumble.print.printInfo("End of Offers");
+		Bumble.print.printOffersEndBanner();
 
 	}
 
@@ -419,6 +419,8 @@ public class HomePage
 			pcSearch("html");
 
 		}
+		
+		Bumble.print.printEndbanner();
 	}
 
 	/**
