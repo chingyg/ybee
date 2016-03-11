@@ -9,3 +9,4 @@ ehthumbs.db
 Thumbs.db
 *.chingyg
 .classpath
+./deployed/db.chingyg
