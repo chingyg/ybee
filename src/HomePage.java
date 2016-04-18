@@ -6,9 +6,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+//import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
+//import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 /**
  * Contains any functionality you could possibly perform while on the home page
@@ -20,7 +20,7 @@ public class HomePage
 {
 
 	private WebDriver driver;
-	private HtmlUnitDriver htmlDriver;
+//	private HtmlUnitDriver htmlDriver;
 	private Database myDB;
 	private int numOfSearches;
 	private RandomUtils myRandom;
@@ -341,28 +341,28 @@ public class HomePage
 			}
 		}
 		// HTML Unit Driver
-		if (driverType.equalsIgnoreCase("html"))
-		{
-
-			// Chrome web client
-			// webClient = new WebClient(BrowserVersion.CHROME);
-
-			htmlDriver = new HtmlUnitDriver(BrowserVersion.CHROME);
-			htmlDriver.setJavascriptEnabled(true);
-
-			/* turn off annoying htmlunit warnings */
-			java.util.logging.Logger.getLogger("com.gargoylesoftware")
-					.setLevel(java.util.logging.Level.OFF);
-
-			// Go to bing rewards login page
-			htmlDriver.get(LOGIN_URL);
-
-			// Login
-			login(myDB.getIndex(0), "html");
-			sleep(2000);
-			pcSearch("html");
-
-		}
+//		if (driverType.equalsIgnoreCase("html"))
+//		{
+//
+//			// Chrome web client
+//			// webClient = new WebClient(BrowserVersion.CHROME);
+//
+//			htmlDriver = new HtmlUnitDriver(BrowserVersion.CHROME);
+//			htmlDriver.setJavascriptEnabled(true);
+//
+//			/* turn off annoying htmlunit warnings */
+//			java.util.logging.Logger.getLogger("com.gargoylesoftware")
+//					.setLevel(java.util.logging.Level.OFF);
+//
+//			// Go to bing rewards login page
+//			htmlDriver.get(LOGIN_URL);
+//
+//			// Login
+//			login(myDB.getIndex(0), "html");
+//			sleep(2000);
+//			pcSearch("html");
+//
+//		}
 	}
 
 	public void start2(String driverType)
@@ -397,28 +397,28 @@ public class HomePage
 			}
 		}
 		// HTML Unit Driver
-		if (driverType.equalsIgnoreCase("html"))
-		{
-
-			// Chrome web client
-			// webClient = new WebClient(BrowserVersion.CHROME);
-
-			htmlDriver = new HtmlUnitDriver(BrowserVersion.CHROME);
-			htmlDriver.setJavascriptEnabled(true);
-
-			/* turn off annoying htmlunit warnings */
-			java.util.logging.Logger.getLogger("com.gargoylesoftware")
-					.setLevel(java.util.logging.Level.OFF);
-
-			// Go to bing rewards login page
-			htmlDriver.get(LOGIN_URL);
-
-			// Login
-			login(myDB.getIndex(0), "html");
-			sleep(2000);
-			pcSearch("html");
-
-		}
+//		if (driverType.equalsIgnoreCase("html"))
+//		{
+//
+//			// Chrome web client
+//			// webClient = new WebClient(BrowserVersion.CHROME);
+//
+//			htmlDriver = new HtmlUnitDriver(BrowserVersion.CHROME);
+//			htmlDriver.setJavascriptEnabled(true);
+//
+//			/* turn off annoying htmlunit warnings */
+//			java.util.logging.Logger.getLogger("com.gargoylesoftware")
+//					.setLevel(java.util.logging.Level.OFF);
+//
+//			// Go to bing rewards login page
+//			htmlDriver.get(LOGIN_URL);
+//
+//			// Login
+//			login(myDB.getIndex(0), "html");
+//			sleep(2000);
+//			pcSearch("html");
+//
+//		}
 		
 		Bumble.print.printEndbanner();
 	}
