@@ -244,6 +244,58 @@ public class HomePage
 		Bumble.print.printOffersEndBanner();
 
 	}
+	
+	public void offers3()
+	{
+		List<WebElement> offerList = null;
+		String selectLinkOpeninNewTab = Keys.chord(Keys.CONTROL, Keys.RETURN);
+
+		Bumble.print.printOffersStartBanner();
+
+		// Navigate to home page
+		driver.get(HOMEPAGE_URL);
+
+		sleep(3000);
+		int i = 0;
+
+		boolean done = false;
+		do{
+			offerList = getMostRecentOffers();
+			if (isDailyOffer(offerList.get(i)))
+			{
+				Bumble.print.printInfo("Legit daily offer");
+				Bumble.print.printInfo(offerList.get(i).getText());
+
+				// Opens the offer in a new tab
+				offerList.get(i).sendKeys("", selectLinkOpeninNewTab);
+				sleep(3000);
+			}
+			else
+			{
+				if(offerList.get(i).getText().contains("1 credit"))
+				{
+					done = true;
+				}
+				i++;
+			}
+		}while(!done);	
+		Bumble.print.printOffersEndBanner();
+	}
+	
+	public void doOffers(List<WebElement> offers)
+	{
+		String selectLinkOpeninNewTab = Keys.chord(Keys.CONTROL, Keys.RETURN);
+		if (isDailyOffer(offers.get(0)))
+		{
+			Bumble.print.printInfo("Legit daily offer");
+			Bumble.print.printInfo(offers.get(0).getText());
+
+			// Opens the offer in a new tab
+			offers.get(0).sendKeys("", selectLinkOpeninNewTab);
+			sleep(3000);
+			doOffers(getMostRecentOffers());
+		}
+	}
 
 	private List<WebElement> getMostRecentOffers()
 	{
@@ -273,7 +325,8 @@ public class HomePage
 				|| offer.contains("Invite friends")
 				|| offer.contains("Maintain Gold")
 				|| offer.contains("PC search")
-				|| offer.contains("Mobile search"))
+				|| offer.contains("Mobile search")
+				|| offer.contains("quiz"))
 
 		{
 			// System.out.println("Caught second condition");
@@ -390,7 +443,7 @@ public class HomePage
 				sleep(2000);
 				this.numOfSearches = getNumberOfSearches();
 				pcSearch("firefox");
-				offers2();
+				offers3();
 				sleep(2000);
 				driver.close();
 
