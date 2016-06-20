@@ -12,7 +12,7 @@ java -jar target/bumble-deployed.jar -c
 
 ## Changes Log
 
-### 6.0.0
+### 1.6.0
 - Converted project to maven project.
 - Removed external selenium jars. Maven will handle dependencies now.
 - Removed the deployed folder, executable jar is now located in target.
