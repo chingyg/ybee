@@ -10,3 +10,9 @@ Thumbs.db
 *.chingyg
 .classpath
 ./deployed/db.chingyg
+./db.chingyg
+./target/archieve-tmp
+./target/classes
+./target/generated-sources
+./target/maven-archiver
+./target/maven-status
