@@ -2,6 +2,7 @@
 
 ## Requirements
 - [Java 8 JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
+- Mozilla Firefox
 
 ## How to run
 
